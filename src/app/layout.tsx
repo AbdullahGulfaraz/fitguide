@@ -54,7 +54,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className={inter.variable}>
+    <html lang="en" className={`${inter.variable} scroll-smooth`}>
       <body className="flex min-h-screen flex-col bg-[#101010] text-[#FFFFFF] antialiased">
         <Navbar />
         <main className="flex-1">{children}</main>

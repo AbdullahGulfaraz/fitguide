@@ -10,8 +10,8 @@ export function FeaturedGuides() {
   const guides = getAllGuides().slice(0, 3);
 
   return (
-    <section className="py-16 sm:py-24 border-b border-[#303030]">
-      <Container>
+    <section className="min-h-[calc(100vh-4rem)] flex items-center border-b border-[#303030] py-16">
+      <Container className="w-full">
         <SectionHeading
           title="Featured Training Guides"
           subtitle="Structured, step-by-step reading to help you plan routines and master gym principles."

@@ -7,8 +7,8 @@ import { ArrowUpRight } from "lucide-react";
 
 export function CategoryGrid() {
   return (
-    <section className="py-16 sm:py-24 border-b border-[#303030]">
-      <Container>
+    <section className="min-h-[calc(100vh-4rem)] flex items-center border-b border-[#303030] py-16">
+      <Container className="w-full">
         <SectionHeading
           title="Explore By Muscle Group"
           subtitle="Target specific areas with clear movement standards and detailed execution cues."

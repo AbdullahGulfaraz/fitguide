@@ -28,8 +28,8 @@ export function NutritionPreview() {
   ];
 
   return (
-    <section className="py-16 sm:py-24 border-b border-[#303030]">
-      <Container>
+    <section className="min-h-[calc(100vh-4rem)] flex items-center border-b border-[#303030] py-16">
+      <Container className="w-full">
         <div className="rounded-2xl bg-[#1C1C1C] border border-[#303030] p-8 lg:p-12">
           <div className="max-w-2xl mb-10">
             <span className="text-xs font-semibold uppercase tracking-wider text-[#FF6B1A]">
