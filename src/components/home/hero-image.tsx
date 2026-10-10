@@ -13,9 +13,9 @@ export function HeroImage({ src, alt }: HeroImageProps) {
   const [hasError, setHasError] = useState(false);
 
   return (
-    <div className="relative w-full h-[520px] sm:h-[620px] lg:h-[720px] flex items-end justify-center pointer-events-none select-none">
+    <div className="relative w-full h-[460px] sm:h-[580px] lg:h-[760px] flex items-end justify-center pointer-events-none select-none">
       {!hasError ? (
-        <div className="relative w-full h-full animate-hero-glide-up will-change-transform">
+        <div className="relative w-full h-full animate-hero-glide-up will-change-transform flex items-end">
           <Image
             src={src}
             alt={alt}
@@ -28,7 +28,7 @@ export function HeroImage({ src, alt }: HeroImageProps) {
         </div>
       ) : (
         /* Fallback State */
-        <div className="flex flex-col items-center justify-center p-8 text-center space-y-3 pointer-events-auto border border-[#303030] bg-[#1C1C1C] rounded-2xl">
+        <div className="flex flex-col items-center justify-center p-8 text-center space-y-3 pointer-events-auto border border-[#303030] bg-[#1C1C1C] rounded-2xl mb-8">
           <div className="w-16 h-16 rounded-2xl bg-[#252525] border border-[#303030] flex items-center justify-center text-[#A3A3A3]">
             <ImageOff className="w-8 h-8 text-[#FF6B1A]" />
           </div>
