@@ -24,7 +24,19 @@ export const metadata: Metadata = {
   },
   description:
     "Discover practical exercise instructions, structured training guides, and general fitness education.",
-  keywords: [
+  icons: {
+    icon: [
+      {
+        url: "/icon.svg",
+        type: "image/svg+xml",
+      },
+      {
+        url: "/favicon.svg",
+        type: "image/svg+xml",
+      },
+    ],
+  },
+    keywords: [
     "fitness",
     "exercise library",
     "workout instructions",
