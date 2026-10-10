@@ -17,14 +17,16 @@ interface MobileMenuProps {
 
 export function MobileMenu({ links }: MobileMenuProps) {
   const [isOpen, setIsOpen] = useState(false);
+  const [prevPathname, setPrevPathname] = useState("");
   const pathname = usePathname();
 
-  // Close menu automatically on route change
-  useEffect(() => {
+  // Reset menu if the route changed during render without triggering an effect cascading render
+  if (pathname !== prevPathname) {
+    setPrevPathname(pathname);
     setIsOpen(false);
-  }, [pathname]);
+  }
 
-  // Lock body scroll when drawer is open
+  // Lock body scroll only when drawer is open
   useEffect(() => {
     if (isOpen) {
       document.body.style.overflow = "hidden";
@@ -75,6 +77,7 @@ export function MobileMenu({ links }: MobileMenuProps) {
               variant="primary"
               size="lg"
               className="w-full"
+              onClick={() => setIsOpen(false)}
             >
               Explore Exercises
             </Button>

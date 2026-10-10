@@ -178,7 +178,7 @@ export function ExerciseBrowser({ exercises }: ExerciseBrowserProps) {
         <div className="text-center py-16 p-8 rounded-xl bg-[#1C1C1C] border border-[#303030]">
           <h3 className="text-lg font-bold text-white mb-2">No exercises found</h3>
           <p className="text-sm text-[#A3A3A3] max-w-md mx-auto mb-6">
-            We couldn't find any exercises matching your active search terms or filters.
+            We couldn&apos;t find any exercises matching your active search terms or filters.
           </p>
           <button
             onClick={handleReset}
