@@ -3,10 +3,12 @@ import Link from "next/link";
 import { Container } from "@/components/ui/container";
 import { SectionHeading } from "@/components/ui/section-heading";
 import { Badge } from "@/components/ui/badge";
-import { FEATURED_GUIDES } from "@/content/sample-previews";
+import { getAllGuides } from "@/content/guides";
 import { ArrowRight, Clock } from "lucide-react";
 
 export function FeaturedGuides() {
+  const guides = getAllGuides().slice(0, 3);
+
   return (
     <section className="py-16 sm:py-24 border-b border-[#303030]">
       <Container>
@@ -16,7 +18,7 @@ export function FeaturedGuides() {
         />
 
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-          {FEATURED_GUIDES.map((guide) => (
+          {guides.map((guide) => (
             <article
               key={guide.slug}
               className="flex flex-col justify-between rounded-xl bg-[#1C1C1C] border border-[#303030] p-6 transition-all duration-200 hover:border-[#FF6B1A]/50 hover:-translate-y-1"
@@ -25,7 +27,7 @@ export function FeaturedGuides() {
                 <div className="flex items-center justify-between mb-4">
                   <Badge variant="surface">{guide.category}</Badge>
                   <span className="flex items-center gap-1 text-xs text-[#A3A3A3]">
-                    <Clock className="w-3.5 h-3.5" /> {guide.readTime}
+                    <Clock className="w-3.5 h-3.5" /> {guide.readTimeMinutes} min read
                   </span>
                 </div>
                 <h3 className="text-xl font-bold text-white mb-3">

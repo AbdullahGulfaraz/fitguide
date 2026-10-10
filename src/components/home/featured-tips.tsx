@@ -3,10 +3,12 @@ import Link from "next/link";
 import { Container } from "@/components/ui/container";
 import { SectionHeading } from "@/components/ui/section-heading";
 import { Badge } from "@/components/ui/badge";
-import { FEATURED_TIPS } from "@/content/sample-previews";
+import { getAllTips } from "@/content/tips";
 import { ArrowRight, Sparkles } from "lucide-react";
 
 export function FeaturedTips() {
+  const tips = getAllTips().slice(0, 3);
+
   return (
     <section className="py-16 sm:py-24 border-b border-[#303030]">
       <Container>
@@ -16,7 +18,7 @@ export function FeaturedTips() {
         />
 
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-          {FEATURED_TIPS.map((tip) => (
+          {tips.map((tip) => (
             <div
               key={tip.slug}
               className="p-6 rounded-xl bg-[#1C1C1C] border border-[#303030] flex flex-col justify-between hover:border-[#FF6B1A]/50 transition-all duration-200 hover:-translate-y-1"
