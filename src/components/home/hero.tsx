@@ -6,20 +6,20 @@ import { ArrowRight, BookOpen, Flame } from "lucide-react";
 
 export function Hero() {
   return (
-    <section className="relative overflow-hidden min-h-[calc(100vh-4rem)] flex items-center border-b border-[#303030] py-12 lg:py-0">
-      {/* Background radial gradient glow */}
-      <div className="absolute -top-24 right-1/4 w-[500px] h-[500px] bg-[#FF6B1A]/10 blur-[140px] rounded-full pointer-events-none -z-10" />
+    <section className="relative overflow-hidden min-h-[calc(100vh-4rem)] flex items-center border-b border-[#303030]">
+      {/* Background radial glow */}
+      <div className="absolute top-1/2 right-1/4 -translate-y-1/2 w-[600px] h-[600px] bg-[#FF6B1A]/15 blur-[160px] rounded-full pointer-events-none -z-10" />
 
       <Container className="w-full">
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-center">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-4 items-center">
           {/* Left Column: Text & CTAs */}
-          <div className="lg:col-span-7 flex flex-col items-start text-left space-y-6">
+          <div className="lg:col-span-6 flex flex-col items-start text-left space-y-6 z-10 py-10 lg:py-0">
             <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full text-xs font-semibold uppercase tracking-wider text-[#FF6B1A] bg-[#FF6B1A]/10 border border-[#FF6B1A]/20 animate-fade-in-up opacity-0 [animation-fill-mode:forwards]">
               <Flame className="w-3.5 h-3.5 text-[#FF6B1A]" />
               Train Smarter • Move Better • Get Stronger
             </div>
 
-            <h1 className="text-4xl sm:text-6xl lg:text-7xl font-extrabold tracking-tight text-white uppercase leading-[1.05] animate-fade-in-up animation-delay-200 opacity-0 [animation-fill-mode:forwards]">
+            <h1 className="text-4xl sm:text-6xl lg:text-7xl font-extrabold tracking-tight text-white uppercase leading-[1.03] animate-fade-in-up animation-delay-200 opacity-0 [animation-fill-mode:forwards]">
               BUILD YOUR <br />
               <span className="text-[#FF6B1A]">STRONGER</span> SELF.
             </h1>
@@ -48,8 +48,8 @@ export function Hero() {
             </div>
           </div>
 
-          {/* Right Column: Athlete Portrait */}
-          <div className="lg:col-span-5 w-full">
+          {/* Right Column: Transparent Athlete Graphic */}
+          <div className="lg:col-span-6 w-full flex justify-center lg:justify-end">
             <HeroImage
               src="/images/hero/hero-athlete.png"
               alt="Athlete training in gym"
