@@ -2,13 +2,14 @@ import React from "react";
 import { Container } from "@/components/ui/container";
 import { Button } from "@/components/ui/button";
 import { HeroImage } from "@/components/home/hero-image";
+import { HeroBg } from "@/components/home/hero-bg";
 import { ArrowRight, BookOpen, Flame } from "lucide-react";
 
 export function Hero() {
   return (
     <section className="relative overflow-hidden min-h-[calc(100vh-4rem)] flex border-b border-[#303030]">
-      {/* Background radial glow */}
-      <div className="absolute top-1/2 right-1/4 -translate-y-1/2 w-[600px] h-[600px] bg-[#FF6B1A]/15 blur-[160px] rounded-full pointer-events-none -z-10" />
+      {/* Background Image Layer */}
+      <HeroBg src="/images/hero/hero-bg.jpg" />
 
       <Container className="w-full flex-1 flex flex-col justify-end">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-4 items-end flex-1">
@@ -48,8 +49,8 @@ export function Hero() {
             </div>
           </div>
 
-          {/* Right Column: Anchored directly to bottom */}
-          <div className="lg:col-span-6 w-full flex justify-center lg:justify-end self-end">
+          {/* Right Column: Anchored Athlete PNG */}
+          <div className="lg:col-span-6 w-full flex justify-center lg:justify-end self-end z-10">
             <HeroImage
               src="/images/hero/hero-athlete.png"
               alt="Athlete training in gym"
