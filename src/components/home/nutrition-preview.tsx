@@ -2,6 +2,7 @@ import React from "react";
 import { Container } from "@/components/ui/container";
 import { Button } from "@/components/ui/button";
 import { Apple, Droplets, Moon, Utensils } from "lucide-react";
+import { NutritionPreviewBg } from "@/components/home/nutrition-preview-bg";
 
 export function NutritionPreview() {
   const pillars = [
@@ -28,9 +29,12 @@ export function NutritionPreview() {
   ];
 
   return (
-    <section className="min-h-[calc(100vh-4rem)] flex items-center border-b border-[#303030] py-16">
-      <Container className="w-full">
-        <div className="rounded-2xl bg-[#1C1C1C] border border-[#303030] p-8 lg:p-12">
+    <section className="relative overflow-hidden min-h-[calc(100vh-4rem)] flex items-center border-b border-[#303030] py-16 bg-[#101010]">
+      {/* Dynamic Background with edge vignettes and error fallback */}
+      <NutritionPreviewBg src="/images/home/nutrition-preview-bg.jpg" />
+
+      <Container className="w-full relative z-10">
+        <div className="rounded-2xl bg-[#1C1C1C]/90 backdrop-blur-sm border border-[#303030] p-8 lg:p-12">
           <div className="max-w-2xl mb-10">
             <span className="text-xs font-semibold uppercase tracking-wider text-[#FF6B1A]">
               Fuel & Recovery
@@ -47,7 +51,7 @@ export function NutritionPreview() {
             {pillars.map((pillar, index) => {
               const Icon = pillar.icon;
               return (
-                <div key={index} className="p-4 rounded-lg bg-[#252525] border border-[#303030]">
+                <div key={index} className="p-4 rounded-lg bg-[#252525]/80 backdrop-blur-sm border border-[#303030]">
                   <Icon className="w-6 h-6 text-[#FF6B1A] mb-3" />
                   <h3 className="text-base font-bold text-white mb-1">{pillar.title}</h3>
                   <p className="text-xs text-[#A3A3A3] leading-relaxed">{pillar.desc}</p>
