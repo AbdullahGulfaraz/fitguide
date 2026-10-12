@@ -6,6 +6,7 @@ export const GUIDES: Article[] = [
     title: "Beginner’s Guide to Starting at the Gym",
     excerpt: "Essential gym etiquette, basic equipment navigation, and pacing your first 30 days of consistent training.",
     category: "Getting Started",
+    image: "",
     readTimeMinutes: 6,
     lastReviewed: "October 2026",
     relatedExerciseSlugs: ["goblet-squat", "push-up"],
@@ -43,6 +44,7 @@ export const GUIDES: Article[] = [
     title: "How to Structure an Effective Workout",
     excerpt: "Learn how to sequence warmups, primary compound lifts, and accessory work without junk volume.",
     category: "Programming",
+    image: "",
     readTimeMinutes: 5,
     lastReviewed: "October 2026",
     relatedExerciseSlugs: ["dumbbell-romanian-deadlift", "dumbbell-overhead-press"],
@@ -79,6 +81,7 @@ export const GUIDES: Article[] = [
     title: "Understanding Sets and Repetitions",
     excerpt: "Demystifying rep brackets, mechanical tension, and how to choose appropriate resistance.",
     category: "Fundamentals",
+    image: "",
     readTimeMinutes: 4,
     lastReviewed: "October 2026",
     sections: [
