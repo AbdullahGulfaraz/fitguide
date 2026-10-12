@@ -22,7 +22,7 @@ export function CategoryBg({
             alt="Gym workout atmospheric background"
             fill
             sizes="100vw"
-            className="object-cover object-center filter brightness-[0.7] contrast-110 saturate-50"
+            className="object-cover object-center scale-110 filter brightness-[0.80] contrast-100 saturate-0"
             onError={() => setHasError(true)}
           />
 
