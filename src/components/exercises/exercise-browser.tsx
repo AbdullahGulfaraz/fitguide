@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState, useMemo } from "react";
+import React, { useState, useEffect, useMemo } from "react";
 import { useSearchParams } from "next/navigation";
 import { Exercise } from "@/types/exercise";
 import { ExerciseCard } from "@/components/exercises/exercise-card";
@@ -14,23 +14,29 @@ export function ExerciseBrowser({ exercises }: ExerciseBrowserProps) {
   const searchParams = useSearchParams();
   const muscleParam = searchParams.get("muscle");
 
-  // Determine if a muscle was passed via URL query
-  const defaultMuscle = useMemo(() => {
-    if (!muscleParam) return "All";
-    const found = exercises.find(
-      (e) => e.muscleGroup.toLowerCase() === muscleParam.toLowerCase()
-    );
-    return found ? found.muscleGroup : "All";
-  }, [muscleParam, exercises]);
-
-  const [searchQuery, setSearchQuery] = useState("");
-  const [selectedMuscle, setSelectedMuscle] = useState(defaultMuscle);
-  const [selectedDifficulty, setSelectedDifficulty] = useState("All");
-  const [selectedEquipment, setSelectedEquipment] = useState("All");
-
+  // Muscle groups dropdown options
   const muscleGroups = useMemo(() => {
     return ["All", ...Array.from(new Set(exercises.map((e) => e.muscleGroup)))];
   }, [exercises]);
+
+  // Resolve matching muscle group from URL query
+  const resolvedUrlMuscle = useMemo(() => {
+    if (!muscleParam) return "All";
+    const found = muscleGroups.find(
+      (m) => m.toLowerCase() === muscleParam.toLowerCase()
+    );
+    return found || "All";
+  }, [muscleParam, muscleGroups]);
+
+  const [searchQuery, setSearchQuery] = useState("");
+  const [selectedMuscle, setSelectedMuscle] = useState(resolvedUrlMuscle);
+  const [selectedDifficulty, setSelectedDifficulty] = useState("All");
+  const [selectedEquipment, setSelectedEquipment] = useState("All");
+
+  // Re-sync state whenever URL param changes (card click, back/forward button)
+  useEffect(() => {
+    setSelectedMuscle(resolvedUrlMuscle);
+  }, [resolvedUrlMuscle]);
 
   const difficulties = ["All", "Beginner", "Intermediate", "Advanced"];
 
