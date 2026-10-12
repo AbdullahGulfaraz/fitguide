@@ -3,13 +3,17 @@ import { Container } from "@/components/ui/container";
 import { SectionHeading } from "@/components/ui/section-heading";
 import { ArticleCard } from "@/components/articles/article-card";
 import { getAllTips } from "@/content/tips";
+import { FeaturedTipsBg } from "@/components/home/featured-tips-bg";
 
 export function FeaturedTips() {
   const tips = getAllTips().slice(0, 3);
 
   return (
-    <section className="min-h-[calc(100vh-4rem)] flex items-center border-b border-[#303030] py-16">
-      <Container className="w-full">
+    <section className="relative overflow-hidden min-h-[calc(100vh-4rem)] flex items-center border-b border-[#303030] py-16 bg-[#101010]">
+      {/* Background layer */}
+      <FeaturedTipsBg src="/images/home/featured-tips-bg.jpg" />
+
+      <Container className="w-full relative z-10">
         <SectionHeading
           title="Latest Fitness Tips"
           subtitle="Quick, practical takeaways you can apply directly to your next training session."
