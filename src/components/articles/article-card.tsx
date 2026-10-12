@@ -1,26 +1,72 @@
-import React from "react";
+"use client";
+
+import React, { useState } from "react";
 import Link from "next/link";
+import Image from "next/image";
 import { Article } from "@/types/article";
 import { Badge } from "@/components/ui/badge";
-import { Clock, ArrowRight } from "lucide-react";
+import { Clock, ArrowRight, Lightbulb } from "lucide-react";
 
 interface ArticleCardProps {
   article: Article;
   basePath: "guides" | "tips";
 }
 
+function ArticleCardImage({
+  src,
+  alt,
+  fallbackText,
+}: {
+  src?: string;
+  alt: string;
+  fallbackText: string;
+}) {
+  const [hasError, setHasError] = useState(false);
+
+  return (
+    <div className="relative aspect-square w-full overflow-hidden rounded-xl bg-[#141414] border border-[#303030]/60 mb-5">
+      {!hasError && src ? (
+        <Image
+          src={src}
+          alt={alt}
+          fill
+          sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+          className="object-cover object-center transition-transform duration-500 group-hover:scale-105"
+          onError={() => setHasError(true)}
+        />
+      ) : (
+        <div className="w-full h-full flex flex-col items-center justify-center text-[#555] bg-[#171717]">
+          <Lightbulb className="w-10 h-10 text-[#FF6B1A]/40 mb-2" />
+          <span className="text-xs uppercase font-mono tracking-wider text-[#737373]">
+            {fallbackText}
+          </span>
+        </div>
+      )}
+      <div className="absolute inset-0 bg-gradient-to-t from-[#101010]/80 via-transparent to-transparent opacity-60 group-hover:opacity-20 transition-opacity" />
+    </div>
+  );
+}
+
 export function ArticleCard({ article, basePath }: ArticleCardProps) {
   return (
-    <article className="flex flex-col justify-between rounded-xl bg-[#1C1C1C] border border-[#303030] p-6 transition-all duration-200 hover:border-[#FF6B1A]/60 hover:-translate-y-1">
+    <article className="group flex flex-col justify-between rounded-2xl bg-[#1C1C1C] border border-[#303030] p-5 transition-all duration-300 hover:border-[#FF6B1A]/60 hover:-translate-y-1 shadow-lg">
       <div>
-        <div className="flex items-center justify-between mb-4">
+        {/* 1:1 Square Preview Image */}
+        <ArticleCardImage
+          src={article.image}
+          alt={article.title}
+          fallbackText={article.category}
+        />
+
+        <div className="flex items-center justify-between mb-3">
           <Badge variant="surface">{article.category}</Badge>
-          <span className="flex items-center gap-1 text-xs text-[#A3A3A3]">
-            <Clock className="w-3.5 h-3.5" /> {article.readTimeMinutes} min read
+          <span className="flex items-center gap-1.5 text-xs text-[#A3A3A3]">
+            <Clock className="w-3.5 h-3.5 text-[#FF6B1A]" />{" "}
+            {article.readTimeMinutes} min read
           </span>
         </div>
 
-        <h3 className="text-xl font-bold text-white mb-3">
+        <h3 className="text-xl font-bold text-white mb-2 group-hover:text-[#FF6B1A] transition-colors">
           {article.title}
         </h3>
 
@@ -29,15 +75,16 @@ export function ArticleCard({ article, basePath }: ArticleCardProps) {
         </p>
       </div>
 
-      <div className="mt-6 pt-4 border-t border-[#303030] flex items-center justify-between">
+      <div className="mt-6 pt-4 border-t border-[#303030]/60 flex items-center justify-between">
         <span className="text-[11px] text-[#A3A3A3]">
-          Reviewed: {article.lastReviewed}
+          {article.lastReviewed ? `Reviewed: ${article.lastReviewed}` : ""}
         </span>
         <Link
           href={`/${basePath}/${article.slug}`}
-          className="inline-flex items-center text-sm font-semibold text-[#FF6B1A] hover:text-[#e05b12] gap-1 transition-colors"
+          className="inline-flex items-center text-sm font-semibold text-[#FF6B1A] hover:text-[#e05b12] gap-1 transition-colors group/link"
         >
-          Read {basePath === "guides" ? "Guide" : "Tip"} <ArrowRight className="w-4 h-4" />
+          Read {basePath === "guides" ? "Guide" : "Tip"}{" "}
+          <ArrowRight className="w-4 h-4 transition-transform group-hover/link:translate-x-1" />
         </Link>
       </div>
     </article>

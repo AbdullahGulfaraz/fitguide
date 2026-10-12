@@ -6,6 +6,7 @@ export const TIPS: Article[] = [
     title: "Why Technique Matters More Than Rushing",
     excerpt: "Lifting heavier with compromised form gives diminished returns while significantly spiking injury risk.",
     category: "Mindset",
+    image: "/images/tips/why-technique-matters-more-than-rushing.jpg",
     readTimeMinutes: 3,
     lastReviewed: "October 2026",
     relatedExerciseSlugs: ["push-up", "goblet-squat"],
@@ -24,6 +25,7 @@ export const TIPS: Article[] = [
     title: "How Sleep Drives Muscle Repair",
     excerpt: "Muscles are stimulated in the gym, but tissue repair, hormonal balance, and nervous system recovery occur in bed.",
     category: "Recovery",
+    image: "/images/tips/how-sleep-supports-recovery.jpg",
     readTimeMinutes: 3,
     lastReviewed: "October 2026",
     sections: [
@@ -41,6 +43,7 @@ export const TIPS: Article[] = [
     title: "Progressive Overload Without Overreaching",
     excerpt: "Principles for adding reps, improving tempo, and adding load safely over extended training blocks.",
     category: "Progression",
+    image: "/images/tips/increasing-training-volume-gradually.jpg",
     readTimeMinutes: 4,
     lastReviewed: "October 2026",
     relatedExerciseSlugs: ["dumbbell-overhead-press"],

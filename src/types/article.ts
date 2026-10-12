@@ -8,6 +8,7 @@ export interface Article {
   slug: string;
   title: string;
   excerpt: string;
+  image: string;
   category: string;
   readTimeMinutes: number;
   lastReviewed: string;

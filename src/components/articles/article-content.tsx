@@ -1,5 +1,8 @@
-import React from "react";
+"use client";
+
+import React, { useState } from "react";
 import Link from "next/link";
+import Image from "next/image";
 import { Article } from "@/types/article";
 import { Container } from "@/components/ui/container";
 import { Badge } from "@/components/ui/badge";
@@ -19,6 +22,8 @@ export function ArticleContent({
   parentTitle,
   parentPath,
 }: ArticleContentProps) {
+  const [imgError, setImgError] = useState(false);
+
   const relatedExercises = (article.relatedExerciseSlugs || [])
     .map((slug) => getExerciseBySlug(slug))
     .filter(Boolean);
@@ -46,24 +51,45 @@ export function ArticleContent({
           </Button>
         </div>
 
-        {/* Article Header */}
-        <header className="rounded-2xl bg-[#1C1C1C] border border-[#303030] p-6 sm:p-10 mb-10">
-          <Badge variant="accent" className="mb-4">
-            {article.category}
-          </Badge>
-          <h1 className="text-3xl sm:text-5xl font-extrabold text-white tracking-tight uppercase mb-4 leading-tight">
-            {article.title}
-          </h1>
-          <p className="text-base sm:text-lg text-[#A3A3A3] leading-relaxed max-w-3xl mb-6">
-            {article.excerpt}
-          </p>
-          <div className="flex flex-wrap items-center gap-6 pt-6 border-t border-[#303030] text-xs text-[#A3A3A3]">
-            <span className="flex items-center gap-1.5">
-              <Clock className="w-4 h-4 text-[#FF6B1A]" /> {article.readTimeMinutes} min read
-            </span>
-            <span className="flex items-center gap-1.5">
-              <Calendar className="w-4 h-4 text-[#FF6B1A]" /> Last Reviewed: {article.lastReviewed}
-            </span>
+        {/* Article Header with Optional Preview Thumbnail */}
+        <header className="rounded-2xl bg-[#1C1C1C] border border-[#303030] p-6 sm:p-10 mb-10 overflow-hidden relative">
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
+            <div className={article.image && !imgError ? "lg:col-span-8" : "lg:col-span-12"}>
+              <Badge variant="accent" className="mb-4">
+                {article.category}
+              </Badge>
+              <h1 className="text-3xl sm:text-5xl font-extrabold text-white tracking-tight uppercase mb-4 leading-tight">
+                {article.title}
+              </h1>
+              <p className="text-base sm:text-lg text-[#A3A3A3] leading-relaxed max-w-3xl mb-6">
+                {article.excerpt}
+              </p>
+              <div className="flex flex-wrap items-center gap-6 pt-6 border-t border-[#303030] text-xs text-[#A3A3A3]">
+                <span className="flex items-center gap-1.5">
+                  <Clock className="w-4 h-4 text-[#FF6B1A]" /> {article.readTimeMinutes} min read
+                </span>
+                {article.lastReviewed && (
+                  <span className="flex items-center gap-1.5">
+                    <Calendar className="w-4 h-4 text-[#FF6B1A]" /> Last Reviewed: {article.lastReviewed}
+                  </span>
+                )}
+              </div>
+            </div>
+
+            {article.image && !imgError && (
+              <div className="lg:col-span-4 hidden lg:block">
+                <div className="relative aspect-square w-full rounded-xl overflow-hidden border border-[#303030]">
+                  <Image
+                    src={article.image}
+                    alt={article.title}
+                    fill
+                    sizes="350px"
+                    className="object-cover"
+                    onError={() => setImgError(true)}
+                  />
+                </div>
+              </div>
+            )}
           </div>
         </header>
 
