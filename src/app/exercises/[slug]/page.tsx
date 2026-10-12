@@ -1,4 +1,4 @@
-import React from "react";
+import React, { Suspense } from "react";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { Container } from "@/components/ui/container";
@@ -44,7 +44,7 @@ export async function generateMetadata({ params }: ExerciseDetailPageProps) {
   };
 }
 
-export default async function ExerciseDetailPage({ params }: ExerciseDetailPageProps) {
+async function ExerciseDetailContent({ params }: ExerciseDetailPageProps) {
   const { slug } = await params;
   const exercise = getExerciseBySlug(slug);
 
@@ -206,5 +206,19 @@ export default async function ExerciseDetailPage({ params }: ExerciseDetailPageP
         )}
       </Container>
     </div>
+  );
+}
+
+export default function ExerciseDetailPage({ params }: ExerciseDetailPageProps) {
+  return (
+    <Suspense
+      fallback={
+        <div className="py-20 text-center text-[#A3A3A3]">
+          Loading exercise details...
+        </div>
+      }
+    >
+      <ExerciseDetailContent params={params} />
+    </Suspense>
   );
 }

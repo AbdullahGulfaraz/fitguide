@@ -1,3 +1,4 @@
+import { Suspense } from "react";
 import { notFound } from "next/navigation";
 import { getAllGuides, getGuideBySlug } from "@/content/guides";
 import { ArticleContent } from "@/components/articles/article-content";
@@ -26,7 +27,7 @@ export async function generateMetadata({ params }: GuideDetailPageProps) {
   };
 }
 
-export default async function GuideDetailPage({ params }: GuideDetailPageProps) {
+async function GuideDetailContent({ params }: GuideDetailPageProps) {
   const { slug } = await params;
   const guide = getGuideBySlug(slug);
 
@@ -40,5 +41,19 @@ export default async function GuideDetailPage({ params }: GuideDetailPageProps) 
       parentTitle="Guides"
       parentPath="/guides"
     />
+  );
+}
+
+export default function GuideDetailPage({ params }: GuideDetailPageProps) {
+  return (
+    <Suspense
+      fallback={
+        <div className="py-16 text-center text-[#A3A3A3]">
+          Loading guide...
+        </div>
+      }
+    >
+      <GuideDetailContent params={params} />
+    </Suspense>
   );
 }

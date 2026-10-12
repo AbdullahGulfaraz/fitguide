@@ -1,3 +1,4 @@
+import { Suspense } from "react";
 import { notFound } from "next/navigation";
 import { getAllTips, getTipBySlug } from "@/content/tips";
 import { ArticleContent } from "@/components/articles/article-content";
@@ -26,7 +27,7 @@ export async function generateMetadata({ params }: TipDetailPageProps) {
   };
 }
 
-export default async function TipDetailPage({ params }: TipDetailPageProps) {
+async function TipDetailContent({ params }: TipDetailPageProps) {
   const { slug } = await params;
   const tip = getTipBySlug(slug);
 
@@ -40,5 +41,19 @@ export default async function TipDetailPage({ params }: TipDetailPageProps) {
       parentTitle="Tips"
       parentPath="/tips"
     />
+  );
+}
+
+export default function TipDetailPage({ params }: TipDetailPageProps) {
+  return (
+    <Suspense
+      fallback={
+        <div className="py-16 text-center text-[#A3A3A3]">
+          Loading tip...
+        </div>
+      }
+    >
+      <TipDetailContent params={params} />
+    </Suspense>
   );
 }
