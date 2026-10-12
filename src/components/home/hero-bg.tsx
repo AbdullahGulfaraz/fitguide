@@ -21,7 +21,7 @@ export function HeroBg({ src }: HeroBgProps) {
             fill
             priority
             sizes="100vw"
-            className="object-cover object-center scale-110 filter brightness-[0.80] contrast-100"
+            className="object-cover object-center scale-110 filter brightness-[0.80] contrast-100 saturate-0"
             onError={() => setHasError(true)}
           />
 
