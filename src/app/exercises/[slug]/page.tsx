@@ -5,6 +5,7 @@ import { Container } from "@/components/ui/container";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { ExerciseCard } from "@/components/exercises/exercise-card";
+import { FeaturedExercisesBg } from "@/components/home/featured-exercises-bg";
 import {
   getAllExercises,
   getExerciseBySlug,
@@ -55,8 +56,11 @@ async function ExerciseDetailContent({ params }: ExerciseDetailPageProps) {
   const related = getRelatedExercises(exercise.slug, exercise.muscleGroup);
 
   return (
-    <div className="py-10 sm:py-16">
-      <Container>
+    <div className="relative min-h-screen py-10 sm:py-16 bg-[#101010]">
+      {/* Fixed Sticky Background */}
+      <FeaturedExercisesBg fixed={true} />
+
+      <Container className="relative z-10">
         {/* Breadcrumbs */}
         <nav className="flex items-center space-x-2 text-xs sm:text-sm text-[#A3A3A3] mb-8">
           <Link href="/" className="hover:text-white transition-colors">
@@ -78,7 +82,7 @@ async function ExerciseDetailContent({ params }: ExerciseDetailPageProps) {
         </div>
 
         {/* Exercise Header */}
-        <div className="rounded-2xl bg-[#1C1C1C] border border-[#303030] p-6 sm:p-10 mb-10">
+        <div className="rounded-2xl bg-[#1C1C1C]/90 backdrop-blur-md border border-[#303030] p-6 sm:p-10 mb-10 shadow-2xl">
           <div className="flex flex-wrap gap-2 mb-4">
             <Badge variant="accent">{exercise.muscleGroup}</Badge>
             <Badge variant="surface">{exercise.difficulty}</Badge>
@@ -122,7 +126,7 @@ async function ExerciseDetailContent({ params }: ExerciseDetailPageProps) {
           {/* Instructions (Left 2 cols) */}
           <div className="lg:col-span-2 space-y-10">
             {/* Step-by-Step Instructions */}
-            <section className="rounded-xl bg-[#1C1C1C] border border-[#303030] p-6 sm:p-8">
+            <section className="rounded-xl bg-[#1C1C1C]/90 backdrop-blur-md border border-[#303030] p-6 sm:p-8">
               <h2 className="text-2xl font-bold text-white mb-6 uppercase flex items-center gap-2">
                 <CheckCircle2 className="w-6 h-6 text-[#FF6B1A]" /> Step-by-Step Execution
               </h2>
@@ -141,7 +145,7 @@ async function ExerciseDetailContent({ params }: ExerciseDetailPageProps) {
             </section>
 
             {/* Common Mistakes */}
-            <section className="rounded-xl bg-[#1C1C1C] border border-[#303030] p-6 sm:p-8">
+            <section className="rounded-xl bg-[#1C1C1C]/90 backdrop-blur-md border border-[#303030] p-6 sm:p-8">
               <h2 className="text-xl font-bold text-white mb-4 uppercase flex items-center gap-2">
                 <AlertTriangle className="w-5 h-5 text-[#EF4444]" /> Common Mistakes
               </h2>
@@ -159,7 +163,7 @@ async function ExerciseDetailContent({ params }: ExerciseDetailPageProps) {
           {/* Sidebar: Safety & Coaching Tips (Right 1 col) */}
           <div className="space-y-6">
             {/* Technique Tips */}
-            <section className="rounded-xl bg-[#1C1C1C] border border-[#303030] p-6">
+            <section className="rounded-xl bg-[#1C1C1C]/90 backdrop-blur-md border border-[#303030] p-6">
               <h3 className="text-lg font-bold text-white mb-4 uppercase flex items-center gap-2">
                 <Lightbulb className="w-5 h-5 text-[#FF6B1A]" /> Pro Tips
               </h3>
@@ -173,7 +177,7 @@ async function ExerciseDetailContent({ params }: ExerciseDetailPageProps) {
             </section>
 
             {/* Safety Reminder */}
-            <section className="rounded-xl bg-[#252525] border border-[#303030] p-6">
+            <section className="rounded-xl bg-[#252525]/90 backdrop-blur-md border border-[#303030] p-6">
               <h3 className="text-lg font-bold text-white mb-3 uppercase flex items-center gap-2">
                 <ShieldAlert className="w-5 h-5 text-[#EF4444]" /> Safety Guidance
               </h3>

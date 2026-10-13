@@ -1,196 +1,159 @@
 "use client";
 
-import React, { useState, useEffect, useMemo } from "react";
-import { useSearchParams } from "next/navigation";
-import { Exercise } from "@/types/exercise";
+import React, { useState, useMemo } from "react";
+import { Exercise } from "@/types/exercise"; // adjust to your exercise interface path
 import { ExerciseCard } from "@/components/exercises/exercise-card";
-import { Search, RotateCcw } from "lucide-react";
+import { Search, SlidersHorizontal, RotateCcw, Dumbbell } from "lucide-react";
 
 interface ExerciseBrowserProps {
   exercises: Exercise[];
 }
 
+const MUSCLE_GROUPS = [
+  "All",
+  "Chest",
+  "Back",
+  "Legs",
+  "Shoulders",
+  "Arms",
+  "Core",
+];
+
+const DIFFICULTIES = ["All", "Beginner", "Intermediate", "Advanced"];
+
 export function ExerciseBrowser({ exercises }: ExerciseBrowserProps) {
-  const searchParams = useSearchParams();
-  const muscleParam = searchParams.get("muscle");
-
-  // Muscle groups dropdown options
-  const muscleGroups = useMemo(() => {
-    return ["All", ...Array.from(new Set(exercises.map((e) => e.muscleGroup)))];
-  }, [exercises]);
-
-  // Resolve matching muscle group from URL query
-  const resolvedUrlMuscle = useMemo(() => {
-    if (!muscleParam) return "All";
-    const found = muscleGroups.find(
-      (m) => m.toLowerCase() === muscleParam.toLowerCase()
-    );
-    return found || "All";
-  }, [muscleParam, muscleGroups]);
-
   const [searchQuery, setSearchQuery] = useState("");
-  const [selectedMuscle, setSelectedMuscle] = useState(resolvedUrlMuscle);
+  const [selectedMuscle, setSelectedMuscle] = useState("All");
   const [selectedDifficulty, setSelectedDifficulty] = useState("All");
-  const [selectedEquipment, setSelectedEquipment] = useState("All");
-
-  // Re-sync state whenever URL param changes (card click, back/forward button)
-  useEffect(() => {
-    setSelectedMuscle(resolvedUrlMuscle);
-  }, [resolvedUrlMuscle]);
-
-  const difficulties = ["All", "Beginner", "Intermediate", "Advanced"];
-
-  const equipmentOptions = useMemo(() => {
-    const allEq = exercises.flatMap((e) => e.equipment);
-    return ["All", ...Array.from(new Set(allEq))];
-  }, [exercises]);
 
   const filteredExercises = useMemo(() => {
     return exercises.filter((ex) => {
-      // Query filter
-      const query = searchQuery.trim().toLowerCase();
-      const matchesQuery =
-        !query ||
-        ex.name.toLowerCase().includes(query) ||
-        ex.muscleGroup.toLowerCase().includes(query) ||
-        ex.description.toLowerCase().includes(query) ||
-        ex.equipment.some((eq) => eq.toLowerCase().includes(query));
+      const matchesSearch =
+        ex.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
+        ex.muscleGroup.toLowerCase().includes(searchQuery.toLowerCase()) ||
+        ex.equipment.some((eq) =>
+          eq.toLowerCase().includes(searchQuery.toLowerCase())
+        );
 
-      // Muscle group filter
       const matchesMuscle =
         selectedMuscle === "All" ||
         ex.muscleGroup.toLowerCase() === selectedMuscle.toLowerCase();
 
-      // Difficulty filter
-      const matchesDifficulty =
-        selectedDifficulty === "All" || ex.difficulty === selectedDifficulty;
+      const matchesDiff =
+        selectedDifficulty === "All" ||
+        ex.difficulty.toLowerCase() === selectedDifficulty.toLowerCase();
 
-      // Equipment filter
-      const matchesEquipment =
-        selectedEquipment === "All" ||
-        ex.equipment.some((eq) => eq.toLowerCase() === selectedEquipment.toLowerCase());
-
-      return matchesQuery && matchesMuscle && matchesDifficulty && matchesEquipment;
+      return matchesSearch && matchesMuscle && matchesDiff;
     });
-  }, [exercises, searchQuery, selectedMuscle, selectedDifficulty, selectedEquipment]);
+  }, [exercises, searchQuery, selectedMuscle, selectedDifficulty]);
 
   const hasActiveFilters =
-    searchQuery.trim() !== "" ||
+    searchQuery !== "" ||
     selectedMuscle !== "All" ||
-    selectedDifficulty !== "All" ||
-    selectedEquipment !== "All";
+    selectedDifficulty !== "All";
 
-  const handleReset = () => {
+  const resetFilters = () => {
     setSearchQuery("");
     setSelectedMuscle("All");
     setSelectedDifficulty("All");
-    setSelectedEquipment("All");
   };
 
   return (
     <div className="space-y-8">
-      {/* Search and Filters Bar */}
-      <div className="p-6 rounded-xl bg-[#1C1C1C] border border-[#303030] space-y-4">
-        {/* Search Input */}
-        <div className="relative">
-          <Search className="absolute left-3.5 top-1/2 -translate-y-1/2 w-5 h-5 text-[#A3A3A3]" />
-          <input
-            type="text"
-            value={searchQuery}
-            onChange={(e) => setSearchQuery(e.target.value)}
-            placeholder="Search exercises by name, muscle, equipment..."
-            className="w-full pl-11 pr-4 py-3 rounded-lg bg-[#252525] border border-[#303030] text-white placeholder-[#A3A3A3] focus:outline-none focus:border-[#FF6B1A] transition-colors text-sm"
-          />
-        </div>
-
-        {/* Filter Selects */}
-        <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
-          <div>
-            <label className="block text-xs font-semibold text-[#A3A3A3] uppercase mb-1">
-              Muscle Group
-            </label>
-            <select
-              value={selectedMuscle}
-              onChange={(e) => setSelectedMuscle(e.target.value)}
-              className="w-full px-3 py-2.5 rounded-lg bg-[#252525] border border-[#303030] text-white text-sm focus:outline-none focus:border-[#FF6B1A]"
-            >
-              {muscleGroups.map((group) => (
-                <option key={group} value={group}>
-                  {group}
-                </option>
-              ))}
-            </select>
+      {/* Control Panel Container */}
+      <div className="rounded-2xl bg-[#171717]/80 backdrop-blur-md border border-[#303030] p-4 sm:p-6 shadow-2xl">
+        {/* Search input & Select controls */}
+        <div className="grid grid-cols-1 md:grid-cols-12 gap-3 sm:gap-4">
+          {/* Search bar */}
+          <div className="md:col-span-8 relative">
+            <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-[#737373]" />
+            <input
+              type="text"
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
+              placeholder="Search exercise, target muscle, or equipment..."
+              className="w-full bg-[#111111] border border-[#2D2D2D] rounded-xl pl-11 pr-4 py-3 text-sm text-white placeholder-[#737373] focus:outline-none focus:border-[#FF6B1A] focus:ring-1 focus:ring-[#FF6B1A] transition-all"
+            />
           </div>
 
-          <div>
-            <label className="block text-xs font-semibold text-[#A3A3A3] uppercase mb-1">
-              Difficulty
-            </label>
+          {/* Difficulty Dropdown */}
+          <div className="md:col-span-4 relative">
             <select
               value={selectedDifficulty}
               onChange={(e) => setSelectedDifficulty(e.target.value)}
-              className="w-full px-3 py-2.5 rounded-lg bg-[#252525] border border-[#303030] text-white text-sm focus:outline-none focus:border-[#FF6B1A]"
+              className="w-full appearance-none bg-[#111111] border border-[#2D2D2D] rounded-xl px-4 py-3 text-sm text-white focus:outline-none focus:border-[#FF6B1A] transition-all cursor-pointer"
             >
-              {difficulties.map((diff) => (
-                <option key={diff} value={diff}>
-                  {diff}
+              {DIFFICULTIES.map((d) => (
+                <option key={d} value={d} className="bg-[#171717] text-white">
+                  {d === "All" ? "All Difficulties" : `${d} Level`}
                 </option>
               ))}
             </select>
-          </div>
-
-          <div>
-            <label className="block text-xs font-semibold text-[#A3A3A3] uppercase mb-1">
-              Equipment
-            </label>
-            <select
-              value={selectedEquipment}
-              onChange={(e) => setSelectedEquipment(e.target.value)}
-              className="w-full px-3 py-2.5 rounded-lg bg-[#252525] border border-[#303030] text-white text-sm focus:outline-none focus:border-[#FF6B1A]"
-            >
-              {equipmentOptions.map((eq) => (
-                <option key={eq} value={eq}>
-                  {eq}
-                </option>
-              ))}
-            </select>
+            <SlidersHorizontal className="pointer-events-none absolute right-4 top-1/2 -translate-y-1/2 w-4 h-4 text-[#737373]" />
           </div>
         </div>
 
-        {/* Reset button and status count */}
-        <div className="flex items-center justify-between pt-2">
-          <p className="text-xs text-[#A3A3A3]">
-            Showing <span className="text-white font-semibold">{filteredExercises.length}</span> of {exercises.length} exercises
-          </p>
+        {/* Muscle Group Pills Bar */}
+        <div className="mt-5 pt-4 border-t border-[#262626] flex items-center justify-between gap-4">
+          <div className="flex items-center gap-1.5 overflow-x-auto no-scrollbar py-1">
+            {MUSCLE_GROUPS.map((group) => {
+              const isActive = selectedMuscle.toLowerCase() === group.toLowerCase();
+              return (
+                <button
+                  key={group}
+                  onClick={() => setSelectedMuscle(group)}
+                  className={`px-3.5 py-1.5 rounded-lg text-xs font-semibold whitespace-nowrap transition-all duration-200 border flex items-center gap-1.5 ${
+                    isActive
+                      ? "bg-[#FF6B1A] text-white border-[#FF6B1A] shadow-md shadow-[#FF6B1A]/20"
+                      : "bg-[#1F1F1F] text-[#A3A3A3] border-[#303030] hover:text-white hover:border-[#444]"
+                  }`}
+                >
+                  {isActive && <span className="w-1.5 h-1.5 rounded-full bg-white" />}
+                  {group}
+                </button>
+              );
+            })}
+          </div>
+
+          {/* Reset Filters trigger */}
           {hasActiveFilters && (
             <button
-              onClick={handleReset}
-              className="inline-flex items-center gap-1.5 text-xs text-[#FF6B1A] hover:underline font-medium"
+              onClick={resetFilters}
+              className="flex-shrink-0 flex items-center gap-1 text-xs text-[#A3A3A3] hover:text-[#FF6B1A] transition-colors font-medium ml-2"
             >
-              <RotateCcw className="w-3.5 h-3.5" /> Clear Filters
+              <RotateCcw className="w-3.5 h-3.5" />
+              Reset
             </button>
           )}
         </div>
       </div>
 
-      {/* Grid of Results */}
+      {/* Results Header */}
+      <div className="flex items-center justify-between text-xs text-[#737373] px-1">
+        <span>
+          Showing <strong className="text-white font-semibold">{filteredExercises.length}</strong> movements
+        </span>
+      </div>
+
+      {/* Exercises Grid or Empty State */}
       {filteredExercises.length > 0 ? (
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
           {filteredExercises.map((exercise) => (
             <ExerciseCard key={exercise.slug} exercise={exercise} />
           ))}
         </div>
       ) : (
-        <div className="text-center py-16 p-8 rounded-xl bg-[#1C1C1C] border border-[#303030]">
-          <h3 className="text-lg font-bold text-white mb-2">No exercises found</h3>
-          <p className="text-sm text-[#A3A3A3] max-w-md mx-auto mb-6">
-            We couldn&apos;t find any exercises matching your active search terms or filters.
+        <div className="rounded-2xl border border-[#2E2E2E] bg-[#171717]/60 py-16 text-center">
+          <Dumbbell className="w-12 h-12 text-[#FF6B1A]/40 mx-auto mb-3" />
+          <h3 className="text-lg font-bold text-white mb-1">No movements found</h3>
+          <p className="text-xs text-[#A3A3A3] max-w-sm mx-auto mb-5">
+            Try adjusting your search terms, muscle group selection, or difficulty filters.
           </p>
           <button
-            onClick={handleReset}
-            className="px-4 py-2 rounded-lg bg-[#FF6B1A] text-white text-sm font-semibold hover:bg-[#e05b12] transition-colors"
+            onClick={resetFilters}
+            className="px-4 py-2 rounded-lg bg-[#262626] border border-[#3A3A3A] text-xs font-semibold text-white hover:border-[#FF6B1A] transition-all"
           >
-            Reset All Filters
+            Clear all filters
           </button>
         </div>
       )}

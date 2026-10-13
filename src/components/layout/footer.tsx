@@ -5,8 +5,7 @@ import { Dumbbell } from "lucide-react";
 
 export function Footer() {
   return (
-    <footer className="border-t border-[#303030] bg-[#101010] py-12 text-[#A3A3A3]">
-      <Container>
+      <footer className="relative z-10 border-t border-[#303030] bg-[#101010] py-12">      <Container>
         <div className="grid grid-cols-1 gap-8 md:grid-cols-4">
           <div className="space-y-4">
             <Link href="/" className="flex items-center gap-2">
